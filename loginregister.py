@@ -1,3 +1,5 @@
+from enum import nonmember
+
 import flet as ft
 
 def main(page: ft.Page):
@@ -20,7 +22,7 @@ def main(page: ft.Page):
         back_btn = ft.TextButton("Back", on_click=lambda e: page.go("/"))
         username = ft.TextField(label="Username", width=300)
         password = ft.TextField(label="Password", password=True, width=300)
-        login_btn = ft.ElevatedButton("Log In", width=150, on_click=lambda e: page.go("/homepage"))
+        login_btn = ft.Button("Log In", width=150, on_click=lambda e: page.go("/homepage"))
         register_link = ft.TextButton("Not registered yet?", on_click=lambda e: page.go("/register"))
 
         return ft.Column(
@@ -45,8 +47,8 @@ def main(page: ft.Page):
             [
                 ft.Row([back_btn], alignment=ft.MainAxisAlignment.START),
                 ft.Text("Gender:"),
-                ft.ElevatedButton("Male", width=80),
-                ft.ElevatedButton("Female", width=80),
+                ft.Button("Male", width=80),
+                ft.Button("Female", width=80),
             ],
             alignment=ft.MainAxisAlignment.CENTER,
         )
@@ -59,7 +61,7 @@ def main(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER,
         )
         password = ft.TextField(label="Password", password=True, width=300)
-        create_btn = ft.ElevatedButton("Create Account", width=180, on_click=lambda e: page.go("/homepage"))
+        create_btn = ft.Button("Create Account", width=180, on_click=lambda e: page.go("/homepage"))
         back_btn = ft.TextButton("Back to Login", on_click=lambda e: page.go("/login"))
 
         return ft.Column(
@@ -88,8 +90,8 @@ def main(page: ft.Page):
             plan_text = ft.Text("Plan", size=32, weight=ft.FontWeight.BOLD)
             title_row = ft.Row([paw_text, plan_text], alignment=ft.MainAxisAlignment.CENTER)
 
-            login_btn = ft.ElevatedButton("Login", on_click=lambda e: page.go("/login"))
-            signup_btn = ft.ElevatedButton("Sign Up", on_click=lambda e: page.go("/register"))
+            login_btn = ft.Button("Login", on_click=lambda e: page.go("/login"))
+            signup_btn = ft.Button("Sign Up", on_click=lambda e: page.go("/register"))
             button_row = ft.Row([login_btn, signup_btn], alignment=ft.MainAxisAlignment.CENTER, spacing=20)
 
             divider = ft.Column([
@@ -98,12 +100,12 @@ def main(page: ft.Page):
                 ft.Divider(thickness=1)
             ], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
 
-            google_btn = ft.ElevatedButton("Sign in with Google", width=250)
+            google_btn = ft.Button("Sign in with Google", width=250)
 
             page.views.append(
                 ft.View(
-                    "/",
-                    [
+                    route="/",
+                    controls=[
                         ft.Column([
                             title_row,
                             ft.Container(height=20),
@@ -125,8 +127,8 @@ def main(page: ft.Page):
         elif page.route == "/homepage":
             page.views.append(
                 ft.View(
-                    "/homepage",
-                    [startup_top()],
+                    route = "/homepage",
+                    controls = [startup_top()],
                     vertical_alignment=ft.MainAxisAlignment.CENTER,
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 )
@@ -135,8 +137,8 @@ def main(page: ft.Page):
         elif page.route == "/login":
             page.views.append(
                 ft.View(
-                    "/login",
-                    [login_screen()],
+                    route = "/login",
+                    controls = [login_screen()],
                     vertical_alignment=ft.MainAxisAlignment.CENTER,
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 )
@@ -145,8 +147,8 @@ def main(page: ft.Page):
         elif page.route == "/register":
             page.views.append(
                 ft.View(
-                    "/register",
-                    [register_screen()],
+                    route = "/register",
+                    controls = [register_screen()],
                     vertical_alignment=ft.MainAxisAlignment.CENTER,
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 )
@@ -154,7 +156,10 @@ def main(page: ft.Page):
 
         page.update()
 
-    page.on_route_change = navigate
-    page.go("/")
 
-ft.app(target=main)
+    # Commented code below causes page to not load
+    page.on_route_change = navigate
+    navigate(None)
+    # page.push_route("/")
+
+ft.run(main)
