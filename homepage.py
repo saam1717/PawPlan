@@ -4,7 +4,7 @@ import flet as ft
 def main(page: ft.Page):
     page.title = "PawPlan"
     page.bgcolor = "#FFFFFF"
-    page.scroll = False
+    page.scroll = None
 
     primary = "#0D6EFD"
     soft_border = "#DDE3EE"
@@ -12,7 +12,7 @@ def main(page: ft.Page):
     white38 = "#FFFFFF66"
 
     appbar = ft.Container(
-        padding=ft.padding.symmetric(horizontal=20, vertical=10),
+        padding=ft.Padding.symmetric(horizontal=20, vertical=10),
         bgcolor="#FFFFFF",
         content=ft.Row(
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
@@ -23,7 +23,7 @@ def main(page: ft.Page):
     )
 
     header = ft.Container(
-        padding=ft.padding.symmetric(horizontal=16, vertical=12),
+        padding=ft.Padding.symmetric(horizontal=16, vertical=12),
         bgcolor=primary,
         content=ft.Column(
             spacing=10,
@@ -37,7 +37,7 @@ def main(page: ft.Page):
                             size=18,
                             weight=ft.FontWeight.W_700,
                         ),
-                        ft.ElevatedButton(
+                        ft.Button(
                             "Add Pet",
                             bgcolor=white,
                             color=primary,
@@ -51,11 +51,11 @@ def main(page: ft.Page):
     )
 
     calendar = ft.Container(
-        margin=ft.margin.symmetric(horizontal=16),
-        padding=ft.padding.all(12),
+        margin=ft.Margin.symmetric(horizontal=16),
+        padding=ft.Padding.all(12),
         bgcolor=white,
         border_radius=12,
-        border=ft.border.all(1, soft_border),
+        border=ft.Border.all(1, soft_border),
         content=ft.Column(
             spacing=10,
             controls=[
@@ -81,7 +81,7 @@ def main(page: ft.Page):
     )
 
     tasks = ft.Container(
-        margin=ft.margin.only(left=16, right=16, top=10),
+        margin=ft.Margin.only(left=16, right=16, top=10),
         content=ft.Text(
             "Today's Tasks",
             size=22,
@@ -91,9 +91,9 @@ def main(page: ft.Page):
     )
 
     bottom_nav = ft.Container(
-        padding=ft.padding.symmetric(horizontal=20, vertical=10),
+        padding=ft.Padding.symmetric(horizontal=20, vertical=10),
         bgcolor="#0B4FB0",
-        border_radius=ft.border_radius.only(top_left=20, top_right=20),
+        border_radius=ft.BorderRadius.only(top_left=20, top_right=20),
         content=ft.Row(
             alignment=ft.MainAxisAlignment.SPACE_AROUND,
             controls=[
@@ -129,9 +129,9 @@ def main(page: ft.Page):
         )
     )
 
-    page.window_width = 430
-    page.window_height = 900
+    page.window.width= 430
+    page.window.height= 900
 
 
 if __name__ == "__main__":
-    ft.app(target=main)
+    ft.run(main)
