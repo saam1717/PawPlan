@@ -12,8 +12,8 @@ def main(page: ft.Page):
         redirect_url="http://localhost:8550/oauth_callback",
     )
 
-    def login_click(e):
-        page.login(provider)
+    async def login_click(e):
+        await page.login(provider)
 
     def on_login(e: ft.LoginEvent):
         if e.error:
@@ -22,6 +22,6 @@ def main(page: ft.Page):
         print("Logged in as:", page.auth.user["email"])
 
     page.on_login = on_login
-    page.add(ft.ElevatedButton("Login with Google", on_click=login_click))
+    page.add(ft.Button("Login with Google", on_click=login_click))
 
-ft.app(target=main, port=8550, view=ft.AppView.WEB_BROWSER)
+ft.run(main, port=8550, view=ft.AppView.WEB_BROWSER)
