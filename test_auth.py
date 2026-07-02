@@ -5,10 +5,18 @@ import os
 import flet as ft
 from flet.auth.providers import GoogleOAuthProvider
 
+# get values from .env
+client_id = os.getenv("GOOGLE_CLIENT_ID")
+client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
+
+# error checking
+if not client_id or not client_secret:
+    raise ValueError("Missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET in .env file")
+
 def main(page: ft.Page):
     provider = GoogleOAuthProvider(
-        client_id=os.getenv("GOOGLE_CLIENT_ID"),
-        client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
+        client_id=client_id,
+        client_secret=client_secret,
         redirect_url="http://localhost:8550/oauth_callback",
     )
 
