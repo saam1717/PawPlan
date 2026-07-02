@@ -1,9 +1,36 @@
-from enum import nonmember
-
+import os
 import flet as ft
+from flet.auth.providers import GoogleOAuthProvider
+from dotenv import load_dotenv
+load_dotenv()
 
+# get values from .env
+client_id = os.getenv("GOOGLE_CLIENT_ID")
+client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
+
+# error checking
+if not client_id or not client_secret:
+    raise ValueError("Missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET in .env file")
+
+
+
+# main
 def main(page: ft.Page):
     page.title = "PawPlan"
+
+    # Google auth code
+    provider = GoogleOAuthProvider(
+        client_id=client_id,
+        client_secret=client_secret,
+        redirect_url="http://localhost:8550/oauth_callback",
+    )
+    async def login_click(e):
+        await page.login(provider)
+    def on_login(e: ft.LoginEvent):
+        if e.error:
+            print("Login error:", e.error)
+            return
+        print("Logged in as:", page.auth.user["email"])
 
     # STARTUP PAGE TOP
     def startup_top():
@@ -83,6 +110,7 @@ def main(page: ft.Page):
     # NAVIGATION HANDLING
     def navigate(e):
         page.views.clear()
+        page.on_login = on_login
 
         # STARTUP PAGE
         if page.route == "/":
@@ -100,7 +128,8 @@ def main(page: ft.Page):
                 ft.Divider(thickness=1)
             ], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
 
-            google_btn = ft.Button("Sign in with Google", width=250)
+            # google button
+            google_btn = ft.Button("Sign in with Google", width=250, on_click=login_click)
 
             page.views.append(
                 ft.View(
@@ -162,4 +191,6 @@ def main(page: ft.Page):
     navigate(None)
     # page.push_route("/")
 
-ft.run(main)
+# note that this runs on web
+# may need to change in the future
+ft.run(main, port=8550, view=ft.AppView.WEB_BROWSER)
