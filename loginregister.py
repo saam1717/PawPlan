@@ -129,7 +129,7 @@ def main(page: ft.Page):
             ], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
 
             # google button
-            google_btn = ft.Button("Sign in with Google", width=250, on_click=lambda e: login_click)
+            google_btn = ft.Button("Sign in with Google", width=250, on_click=login_click)
 
             page.views.append(
                 ft.View(
@@ -191,4 +191,6 @@ def main(page: ft.Page):
     navigate(None)
     # page.push_route("/")
 
+# note that this runs on web
+# may need to change in the future
 ft.run(main, port=8550, view=ft.AppView.WEB_BROWSER)
