@@ -9,9 +9,8 @@ from flet.controls import page
 def taskmaker_view(page: ft.Page) -> ft.View:
     page.scroll = ft.ScrollMode.AUTO
 
+    # flet spazzes out for some reason if these aren't functions
     selection_text = ft.Text(weight=ft.FontWeight.BOLD, value="No task selected")
-
-    #flet spazzes out for some reason if these aren't functions
     def on_time_change(e):
         selection_text.value = f"Time selected: {time_picker.value}"
         page.update()
@@ -25,9 +24,6 @@ def taskmaker_view(page: ft.Page) -> ft.View:
 
     def on_date_dismiss(e):
         page.show_dialog(ft.SnackBar(ft.Text("DatePicker dismissed!")))
-
-    def on_pick_date_click(e):
-        page.show_dialog(date_picker)
 
 
     appbar = ft.Container(
@@ -45,13 +41,22 @@ def taskmaker_view(page: ft.Page) -> ft.View:
     tasks = ft.Container(
         margin=ft.Margin.only(left=16, right=16, top=10),
         content=ft.Text(
-            "Today's Tasks",
+            "New Task",
             size=22,
             weight=ft.FontWeight.W_700,
             color="Black",
         ),
     )
 
+    pet_picker = ft.Dropdown(
+        label="Choose Pet",
+        #TODO: add added pets to dropdown
+        options=[
+            ft.dropdown.Option("Nanet Japoles"),
+            ft.dropdown.Option("Layla Mesarka od Travnik"),
+        ])
+
+    #inputs
     task_input = ft.TextField(label="Input new task here", width=300, text_align=ft.TextAlign.CENTER)
 
     time_picker = ft.TimePicker(
@@ -78,6 +83,7 @@ def taskmaker_view(page: ft.Page) -> ft.View:
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 spacing = 15,
                 controls=[
+                    pet_picker,
                     task_input,
                     ft.Button(
                         key="pick_time_button",
@@ -102,7 +108,6 @@ def taskmaker_view(page: ft.Page) -> ft.View:
     )
 
 def _standalone_main(page: ft.Page):
-    # Lets you run `python homepage.py` on its own to preview this screen
     page.title = "TaskMaker"
     page.window.width = 430
     page.window.height = 900
