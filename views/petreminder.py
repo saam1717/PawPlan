@@ -6,65 +6,56 @@ from model.firebase_setup import db
 from model.firestore_auth import get_uid
 
 logger = logging.getLogger(__name__)
-# === COPILOT NOTE ===
-# Changed by Copilot: Reminder list is loaded asynchronously in a
-# background thread so the view renders immediately. This prevents
-# blocking during navigation when Firestore I/O is performed.
-# === END NOTE ===
 
 
-def petreminder_view(page: ft.Page) -> ft.View:
+def pet_reminder_view(page: ft.Page) -> ft.View:
 
     primary = "#0D6EFD"
     soft_border = "#DDE3EE"
     white = "#FFFFFF"
     white38 = "#FFFFFF66"
 
+    # colors used for the reminder pills, cycled by index to match mockup
+    pill_colors = ["#6C5CE7", "#F05648"]
 
-    async def go_home(e):
-        logger.info("Home nav clicked")
+    async def go_back(e):
+        logger.info("Back nav clicked")
         try:
+            # await page.pop_route()
             await page.push_route("/homepage")
-            logger.info("Route pushed")
+            logger.info("Route popped")
         except Exception as e:
             logger.error(f"Error occurred: {e}")
 
-    async def go_calendar(e):
-        logger.info("Calendar nav clicked")
-        try:
-            await page.push_route("/calendar")
-            logger.info("Route pushed")
-        except Exception as e:
-            logger.error(f"Error occurred: {e}")
-
-    async def go_profile(e):
-        logger.info("Profile nav clicked")
-        try:
-            await page.push_route("/profile")
-            logger.info("Route pushed")
-        except Exception as e:
-            logger.error(f"Error occurred: {e}")
-
-    # header
+    # header: back arrow + centered title, no overflow menu
     appbar = ft.Container(
         padding=ft.Padding.symmetric(horizontal=20, vertical=10),
         bgcolor="#FFFFFF",
-        content=ft.Row(
-            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+        content=ft.Stack(
             controls=[
-                ft.Text("PawPlan", size=20, weight=ft.FontWeight.W_700, color="#000000"),
-            ]
-        ),
-    )
-
-    # page title
-    title = ft.Container(
-        margin=ft.Margin.only(left=16, right=16, top=10),
-        content=ft.Text(
-            "Today's Tasks",
-            size=22,
-            weight=ft.FontWeight.W_700,
-            color="Black",
+                ft.Row(
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    controls=[
+                        ft.Text(
+                            "Reminders",
+                            size=22,
+                            weight=ft.FontWeight.W_800,
+                            color="#000000",
+                        ),
+                    ],
+                ),
+                ft.Row(
+                    alignment=ft.MainAxisAlignment.START,
+                    controls=[
+                        ft.IconButton(
+                            icon=ft.Icons.ARROW_BACK,
+                            icon_color="#000000",
+                            icon_size=26,
+                            on_click=go_back,
+                        ),
+                    ],
+                ),
+            ],
         ),
     )
 
@@ -74,42 +65,53 @@ def petreminder_view(page: ft.Page) -> ft.View:
             alarm_list_layout.controls.remove(alarm_unit)
             page.update()
 
-        alarm_unit = ft.Container(
-            margin=ft.Margin.only(left=20, right=20, top=10, bottom=10),
-            border=ft.Border.all(width=2.5, color=ft.Colors.GREY_400),
-            padding=15,
-            width=float("inf"),
-            content=ft.Text("New Reminder")
-        )
+        alarm_unit = build_reminder_pill("New Reminder", len(alarm_list_layout.controls))
         alarm_list_layout.controls.append(alarm_unit)
         page.update()
-
 
     import threading
 
     # temporary code
     # change all later
-    pet_name = "ben" # temporary, change later
+    pet_name = "ben"  # temporary, change later
     reminder_list = []
 
-    def create_reminder_control(reminder_name):
-        def delete_alarm(e):
-            alarm_list_layout.controls.remove(alarm_unit)
-            page.update()
-
-        alarm_unit = ft.Container(
-            margin=ft.Margin.only(left=20, right=20, top=10, bottom=10),
-            border=ft.Border.all(width=2.5, color=ft.Colors.GREY_400),
-            padding=15,
-            width=float("inf"),
-            content=ft.Text(reminder_name)
+    def build_reminder_pill(reminder_name, index):
+        color = pill_colors[index % len(pill_colors)]
+        return ft.Container(
+            margin=ft.Margin.only(left=16, right=16, top=8, bottom=8),
+            padding=ft.Padding.symmetric(horizontal=14, vertical=14),
+            border_radius=30,
+            bgcolor=color,
+            content=ft.Row(
+                spacing=14,
+                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                controls=[
+                    ft.Container(
+                        width=32,
+                        height=32,
+                        border_radius=10,
+                        border=ft.Border.all(width=2, color=white),
+                    ),
+                    ft.Text(
+                        reminder_name,
+                        color=white,
+                        size=15,
+                        weight=ft.FontWeight.W_600,
+                        expand=True,
+                    ),
+                ],
+            ),
         )
-        return alarm_unit
+
+    def create_reminder_control(reminder_name, index):
+        return build_reminder_pill(reminder_name, index)
 
     alarm_list_layout = ft.Column(
         expand=True,
+        spacing=0,
         scroll=ft.ScrollMode.ADAPTIVE,
-        controls=[ft.Text("Loading reminders...")]
+        controls=[ft.Text("Loading reminders...", color="#000000")],
     )
 
     def _fetch_reminders():
@@ -127,9 +129,11 @@ def petreminder_view(page: ft.Page) -> ft.View:
 
             reminder_list[:] = reminders
             if reminders:
-                alarm_list_layout.controls[:] = [create_reminder_control(r) for r in reminders]
+                alarm_list_layout.controls[:] = [
+                    create_reminder_control(r, i) for i, r in enumerate(reminders)
+                ]
             else:
-                alarm_list_layout.controls[:] = [ft.Text("No reminders")]
+                alarm_list_layout.controls[:] = [ft.Text("No reminders", color="#000000")]
             page.update()
         except Exception as ex:
             logger.exception("Failed fetching reminders: %s", ex)
@@ -138,69 +142,53 @@ def petreminder_view(page: ft.Page) -> ft.View:
 
     threading.Thread(target=_fetch_reminders, daemon=True).start()
 
-
     # reminder container
     alarm_cont = ft.Container(
-        margin=ft.Margin.only(top=15, bottom=5),
+        margin=ft.Margin.only(left=16, right=16, top=15, bottom=5),
+        padding=ft.Padding.symmetric(vertical=10),
         expand=True,
-        border=ft.Border.all(width=2.5, color=ft.Colors.GREY_400),
-        border_radius=10,
+        border=ft.Border.all(width=2.5, color="#000000"),
+        border_radius=18,
         content=alarm_list_layout  # Inject the list layout here
     )
 
     # add button
     add_button = ft.Container(
-        margin=ft.Margin.only(top=5, bottom=20),
+        margin=ft.Margin.only(top=10, bottom=20),
         align=ft.Alignment.CENTER,
-        content=ft.IconButton(
-            icon=ft.Icons.ADD,
-            icon_color="white",
+        content=ft.Container(
+            width=52,
+            height=52,
+            border_radius=26,
             bgcolor="#0B4FB0",
-            icon_size=24,
-            tooltip="Add reminder",
-            on_click=create_alarm,
-        )
-    )
-
-    # navbar
-    bottom_nav = ft.Container(
-        padding=ft.Padding.symmetric(horizontal=20, vertical=20),
-        bgcolor="#0B4FB0",
-        border_radius=ft.BorderRadius.only(top_left=20, top_right=20),
-        content=ft.Row(
-            alignment=ft.MainAxisAlignment.SPACE_AROUND,
-            controls=[
-                ft.TextButton(
-                    "Home", style=ft.ButtonStyle(color=white), on_click=go_home
-                ),
-                ft.TextButton(
-                    "Calendar",
-                    style=ft.ButtonStyle(color=white),
-                    on_click=go_calendar,
-                ),
-                ft.TextButton(
-                    "Profile",
-                    style=ft.ButtonStyle(color=white),
-                    on_click=go_profile,
-                ),
-            ],
+            alignment=ft.Alignment.CENTER,
+            content=ft.IconButton(
+                icon=ft.Icons.ADD,
+                icon_color="white",
+                icon_size=26,
+                tooltip="Add reminder",
+                on_click=create_alarm,
+            ),
         ),
     )
 
     return ft.View(
         route="/petreminder",
+        bgcolor=white,
         controls=[
-            ft.Column(
-                spacing=0,
+            ft.Container(
                 expand=True,
-                horizontal_alignment=ft.CrossAxisAlignment.STRETCH,
-                controls=[
-                    appbar,
-                    title,
-                    alarm_cont,
-                    add_button,
-                    bottom_nav,
-                ],
+                bgcolor=white,
+                content=ft.Column(
+                    spacing=0,
+                    expand=True,
+                    horizontal_alignment=ft.CrossAxisAlignment.STRETCH,
+                    controls=[
+                        appbar,
+                        alarm_cont,
+                        add_button,
+                    ],
+                ),
             )
         ],
     )

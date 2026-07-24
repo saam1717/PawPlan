@@ -91,10 +91,17 @@ def petprofile_input_view(page: ft.Page) -> ft.View:
         color=black,
         content_padding=field_content_padding,
         options=[
-            ft.dropdown.Option("Dog"),
-            ft.dropdown.Option("Cat"),
+            ft.dropdown.Option(
+                key="Dog",
+                content=ft.Text("Dog", color=black),
+            ),
+            ft.dropdown.Option(
+                key="Cat",
+                content=ft.Text("Cat", color=black),
+            ),
         ],
     )
+
     pet_age = ft.TextField(
         hint_text="e.g. 3",
         width=340,
@@ -107,7 +114,17 @@ def petprofile_input_view(page: ft.Page) -> ft.View:
         content_padding=field_content_padding,
     )
     pet_breed = ft.TextField(
-        hint_text="e.g. Golden Retriever",
+        hint_text="e.g. Chihuahua, Husky",
+        width=340,
+        text_align=ft.TextAlign.START,
+        border_radius=field_border_radius,
+        border_color=soft_border,
+        bgcolor=white,
+        color=black,
+        content_padding=field_content_padding,
+    )
+    pet_allergies = ft.TextField(
+        hint_text="e.g. Chicken, Pork",
         width=340,
         text_align=ft.TextAlign.START,
         border_radius=field_border_radius,
@@ -149,12 +166,17 @@ def petprofile_input_view(page: ft.Page) -> ft.View:
             return
         error_text.visible = False
 
+        allergies_list = [
+            a.strip() for a in (pet_allergies.value or "").split(",") if a.strip()
+        ]
+
         pets_ref.set({
             "pets": firestore.ArrayUnion([{
                 "name": pet_name.value,
                 "type": pet_type.value,
                 "age": pet_age.value,
-                "breed": pet_breed.value
+                "breed": pet_breed.value,
+                "allergies": allergies_list
             }])
         }, merge=True)
 
@@ -170,6 +192,7 @@ def petprofile_input_view(page: ft.Page) -> ft.View:
         bgcolor=primary,
         style=ft.ButtonStyle(
             shape=ft.RoundedRectangleBorder(radius=30),
+            side=ft.BorderSide(width=1.5, color=black),
         ),
     )
 
@@ -185,6 +208,7 @@ def petprofile_input_view(page: ft.Page) -> ft.View:
                 labeled_input("Pet Type", pet_type),
                 labeled_input("Age", pet_age),
                 labeled_input("Breed", pet_breed),
+                labeled_input("Allergies", pet_allergies),
                 error_text,
             ],
         ),
@@ -217,7 +241,7 @@ def petprofile_input_view(page: ft.Page) -> ft.View:
     )
 
     return ft.View(
-        route="/petprofile",
+        route="/petprofile_input",
         bgcolor=white,
         padding=0,
         spacing=0,

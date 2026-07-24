@@ -255,9 +255,21 @@ def account_profile_view(page: ft.Page) -> ft.View:
 
     def make_delete_handler(pet_name):
         def handler(e):
+            # Code for UI responsiveness
+            try:
+                idx = next((i for i, p in enumerate(pet_list) if p.get("name") == pet_name), None)
+                if idx is not None:
+                    pet_list.pop(idx)
+                    profile_content.content = build_profile_content()
+                    page.update()
+            except Exception as ex:
+                logger.exception("Failed updating UI for delete: %s", ex)
+
+            # Perform backend deletion in background
             def _do_delete():
                 try:
                     remove_pet(get_uid(), pet_name)
+                    # refresh authoritative list
                     pets = get_pet_list(get_uid())
                     pet_list[:] = pets
                     profile_content.content = build_profile_content()
@@ -304,7 +316,7 @@ def account_profile_view(page: ft.Page) -> ft.View:
         )
 
     # start with empty UI; populate in background
-    profile_content = ft.Container(content=ft.Text("Loading profile..."))
+    profile_content = ft.Container(content=ft.Text("Loading profile...", color="#000000"))
 
     def build_profile_content():
         if section_state["active"] == "owner":

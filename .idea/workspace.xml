@@ -3,10 +3,13 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BackgroundAgentGlobalSettings">
+    <option name="selectedModelId" value="auto" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="1ba19bff-17e9-4a2f-a6d4-bae29a6a567a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/homepage.py" beforeDir="false" afterPath="$PROJECT_DIR$/views/homepage.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +21,13 @@
       <entry key="_/home/cereal/Documents/School Projects/appdev/PawPlan" value="3FqikhCAs5lFObm5IdWpFRVbkYS" />
     </persistenceIdMap>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -27,67 +37,67 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="3.544113382705212E-8" />
-      <entry key="MS500" value="0.03235202887004305" />
-      <entry key="S2" value="0.4241069411143285" />
-      <entry key="S5" value="0.7095616781001912" />
-      <entry key="S10" value="0.842354840966793" />
-      <entry key="S30" value="0.9444196733550676" />
-      <entry key="S60" value="0.97181257110364" />
-      <entry key="M2" value="0.9858055442650139" />
-      <entry key="M5" value="0.9942978550550912" />
-      <entry key="M10" value="0.9971448515913277" />
-      <entry key="M15" value="0.998095660812657" />
-      <entry key="M30" value="0.9990473766607151" />
-      <entry key="H1" value="0.999523574839891" />
-      <entry key="H2" value="0.9997617590405681" />
-      <entry key="H4" value="0.9998808724245944" />
-      <entry key="D1" value="0.9999801444185149" />
-      <entry key="W1" value="0.9999971634642215" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0001445768151198" />
+      <entry key="S2" value="1.121036821988394" />
+      <entry key="S5" value="1.6815622012610514" />
+      <entry key="S10" value="2.603208801167191" />
+      <entry key="S30" value="4.3084619212859465" />
+      <entry key="S60" value="5.050371419870417" />
+      <entry key="M2" value="5.4956027969586465" />
+      <entry key="M5" value="5.79061699541999" />
+      <entry key="M10" value="5.893993187012019" />
+      <entry key="M15" value="5.929687901060086" />
+      <entry key="M30" value="6.20236995992686" />
+      <entry key="H1" value="10.603555185930478" />
+      <entry key="H2" value="26.461985574763926" />
+      <entry key="H4" value="49.137087488624296" />
+      <entry key="D1" value="86.35005126011298" />
+      <entry key="W1" value="95.39610845731787" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0" />
-      <entry key="S5" value="1.0" />
-      <entry key="S10" value="1.0" />
-      <entry key="S30" value="1.0" />
-      <entry key="S60" value="1.0" />
-      <entry key="M2" value="1.0" />
-      <entry key="M5" value="1.0" />
-      <entry key="M10" value="1.0" />
-      <entry key="M15" value="1.0" />
-      <entry key="M30" value="1.0" />
-      <entry key="H1" value="1.0" />
-      <entry key="H2" value="1.0" />
-      <entry key="H4" value="1.0" />
-      <entry key="D1" value="1.0" />
-      <entry key="W1" value="1.0" />
+      <entry key="MS100" value="1.3733624080815263E-4" />
+      <entry key="MS500" value="0.1699433737872469" />
+      <entry key="S2" value="0.8219756485061555" />
+      <entry key="S5" value="1.3417240129263301" />
+      <entry key="S10" value="1.625307181449295" />
+      <entry key="S30" value="1.8630703903429904" />
+      <entry key="S60" value="1.9298926726963648" />
+      <entry key="M2" value="1.9645244981440344" />
+      <entry key="M5" value="1.9857070869385214" />
+      <entry key="M10" value="1.992836582926579" />
+      <entry key="M15" value="1.9953075545390266" />
+      <entry key="M30" value="2.025161793366643" />
+      <entry key="H1" value="2.49434887183368" />
+      <entry key="H2" value="4.108447372648039" />
+      <entry key="H4" value="6.354961465401096" />
+      <entry key="D1" value="9.974076196439796" />
+      <entry key="W1" value="10.845719071995607" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.04239388675620104" />
-      <entry key="MS500" value="0.5486889893674322" />
-      <entry key="S2" value="1.2161788160582756" />
-      <entry key="S5" value="1.6050213732088865" />
-      <entry key="S10" value="1.7851464074425751" />
-      <entry key="S30" value="1.9240843104429777" />
-      <entry key="S60" value="1.9614748708344847" />
-      <entry key="M2" value="1.9805932543505445" />
-      <entry key="M5" value="1.9922023916024811" />
-      <entry key="M10" value="1.9960953516937665" />
-      <entry key="M15" value="1.9973956005241564" />
-      <entry key="M30" value="1.9986971494802768" />
-      <entry key="H1" value="1.9993484119547578" />
-      <entry key="H2" value="1.9996741652697871" />
-      <entry key="H4" value="1.9998370724565893" />
-      <entry key="D1" value="1.9999728439956588" />
-      <entry key="W1" value="1.9999961205361838" />
+      <entry key="MS100" value="0.033492926234540414" />
+      <entry key="MS500" value="0.5294860615527615" />
+      <entry key="S2" value="1.43161835585674" />
+      <entry key="S5" value="2.6356885835064894" />
+      <entry key="S10" value="3.922198576760726" />
+      <entry key="S30" value="5.998413607952726" />
+      <entry key="S60" value="6.877694721427133" />
+      <entry key="M2" value="7.403972493501207" />
+      <entry key="M5" value="7.752561619231229" />
+      <entry key="M10" value="7.874719815811779" />
+      <entry key="M15" value="7.916870111770995" />
+      <entry key="M30" value="8.223395926828369" />
+      <entry key="H1" value="13.095424399592344" />
+      <entry key="H2" value="30.56848958190037" />
+      <entry key="H4" value="55.49058720813223" />
+      <entry key="D1" value="96.32375212919173" />
+      <entry key="W1" value="106.24176937762378" />
     </decayedShown>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="3FqikhCAs5lFObm5IdWpFRVbkYS" />
   <component name="ProjectSessionTemplates">
     <option name="panelTemplate">
@@ -95,11 +105,12 @@
         <option name="modeId" value="Agent" />
         <option name="model">
           <model>
-            <option name="modelType" value="builtin_family" />
+            <option name="modelType" value="builtin_id" />
             <option name="modelValue" value="auto" />
           </model>
         </option>
         <option name="targetType" value="BACKGROUND" />
+        <option name="worktreeMode" value="WORKSPACE" />
       </template>
     </option>
   </component>
@@ -110,6 +121,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.taskmaker.executor": "Run",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -118,9 +130,14 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "copilot.chat.legacySessionMetadata.migrated": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "backend-v2",
     "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "to.speed.mode.migration.done": "true"
   }
 }]]></component>

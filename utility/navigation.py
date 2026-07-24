@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 def go_to(page: ft.Page, route: str, on_after=None):
     async def handler(e):
         try:
+            logger.debug("Navigating to %s", route)
             await page.push_route(route)
         except Exception as ex:
             logger.error(f"Navigation to {route} failed: {ex}")

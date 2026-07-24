@@ -61,7 +61,6 @@ def return_uid(page):
 # START OF VIEWS
 def homepage_view(page: ft.Page) -> ft.View:
 
-
     def view_reminder_handler(pet_name):
         async def handler(e):
             await view_reminder(pet_name, return_uid(page))
@@ -232,6 +231,7 @@ def homepage_view(page: ft.Page) -> ft.View:
                         border=ft.Border.all(2, white),
                         alignment=ft.Alignment.CENTER,
                         content=ft.Icon(ft.Icons.PETS, size=40, color="#8A6A3B"),
+                        on_click = go_to(page, "/petprofile")# edit code to reroute to a page
                     ),
                     ft.Button(
                         content=ft.Text("View Reminder", size=8, color=white),
@@ -241,6 +241,8 @@ def homepage_view(page: ft.Page) -> ft.View:
                 ],
             ),
         )
+
+    header_text = f"Hello {str(return_uid(page))}"
 
     header = ft.Container(
         padding=ft.Padding.symmetric(horizontal=16, vertical=16),
@@ -254,7 +256,7 @@ def homepage_view(page: ft.Page) -> ft.View:
                     vertical_alignment=ft.CrossAxisAlignment.CENTER,
                     controls=[
                         ft.Text(
-                            "Hello, John",
+                            header_text,
                             color=white,
                             size=24,
                             weight=ft.FontWeight.W_800,
@@ -269,7 +271,7 @@ def homepage_view(page: ft.Page) -> ft.View:
                                 ],
                             ),
                             bgcolor=white,
-                            on_click=go_to(page, "/petprofile"),
+                            on_click=go_to(page, "/petprofile_input"),
                         ),
                     ],
                 ),

@@ -26,6 +26,9 @@ def taskmaker_view(page: ft.Page) -> ft.View:
     task = ft.TextField(label="Input new task here", width=300, text_align=ft.TextAlign.CENTER)
 
     return ft.View(
-        appbar,
-        tasks,
+        route = "/taskmaker",
+        controls = [
+            appbar,
+            tasks,
+        ]
     )

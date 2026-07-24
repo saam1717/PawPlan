@@ -22,6 +22,11 @@ def header_bar(page: ft.Page, title: str) -> ft.Container:
         content = ft.Stack(
             [
                 ft.Container(
+                    content = ft.Text(title, size = 26, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE),
+                    alignment=ft.Alignment.CENTER,
+                ),
+                # back button (rendered last so it's on top and receives clicks)
+                ft.Container(
                     content = ft.IconButton(
                         icon = ft.Icons.ARROW_BACK,
                         icon_color = ft.Colors.WHITE,
@@ -29,10 +34,6 @@ def header_bar(page: ft.Page, title: str) -> ft.Container:
                         on_click = go_to(page,"/")
                     ),
                     alignment=ft.Alignment.CENTER_LEFT,
-                ),
-                ft.Container(
-                    content = ft.Text(title, size = 26, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE),
-                    alignment=ft.Alignment.CENTER,
                 ),
             ],
         ),
