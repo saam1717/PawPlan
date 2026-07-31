@@ -2,4 +2,14 @@
 name = "pawplan"
 version = "0.1.0"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "firebase-admin>=7.5.0",
+    "flet>=0.85.3",
+    "pandas>=3.0.3",
+    "pandas-stubs~=3.0.3",
+    "pyrebase4>=4.9.0",
+    "python-dotenv>=1.2.2",
+    "reportlab>=5.0.0",
+    "typst>=0.15.0",
+]
+description = "Add your description here"
