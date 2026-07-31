@@ -1,5 +1,6 @@
 .idea
 .idea/
+.idea/workspace.xml
 build
 .env
 pawplan_account.json

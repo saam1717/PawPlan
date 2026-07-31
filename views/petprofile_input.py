@@ -10,6 +10,8 @@ from model.pet_crud import (
     MAX_PETS,
 )
 from firebase_admin import firestore
+
+from utility.navigation import do_logout
 from utility.theme import get_colors, ON_BRAND, PRIMARY, HEADER_BLUE
 from model.json.uid_json import UserIdStore
 from setup.firebase_setup import db
@@ -60,10 +62,10 @@ def petprofile_input_view(page: ft.Page) -> ft.View:
     async def go_settings(e):
         logger.debug("Settings nav clicked")
         await page.push_route("/settings")
+
     async def go_logout(e):
         logger.debug("Logout clicked")
-        await page.push_route("/")
-
+        await do_logout(page)
     appbar = ft.Container(
         padding=ft.Padding.symmetric(horizontal=16, vertical=16),
         bgcolor=header_blue,

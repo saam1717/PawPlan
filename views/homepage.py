@@ -15,7 +15,8 @@ from model.task_crud import (
     format_occurrence_date,
 )
 from model.user_account_crud import get_data
-from utility.navigation import go_to
+from utility.navigation import go_to, do_logout
+from model.firestore_auth import uid_account
 from setup.firebase_setup import db
 from utility.theme import get_colors, ON_BRAND, PRIMARY, HEADER_BLUE, ORANGE, NAV_BLUE, GREEN
 
@@ -47,15 +48,14 @@ NAV_SHRINK_SCALE = 0.6
 
 # returns uid from model
 def return_uid(page):
+    uid = get_uid()
+    if uid:
+        return uid
     if page.auth is not None:
         current_user_id = page.auth.user["email"]
-        uid = UserIdStore()
-        uid.set(str(current_user_id))
-    else:
-        current_user_id = get_uid()
-
-    return current_user_id
-
+        UserIdStore().set(str(current_user_id))
+        return current_user_id
+    return None
 
 # START OF VIEWS
 def homepage_view(page: ft.Page) -> ft.View:
@@ -78,7 +78,7 @@ def homepage_view(page: ft.Page) -> ft.View:
 
     async def go_logout(e):
         logger.debug("Logout clicked")
-        await page.push_route("/")
+        await do_logout(page)
 
     pill_nav_routes = ["/homepage", "/taskboard", "/account_profile"]
 

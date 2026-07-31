@@ -11,7 +11,7 @@ from setup.firebase_setup import db
 load_dotenv()
 create_account = NewAccountStore()
 uid_account = UserIdStore()
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(f"pawplan.{__name__}")
 
 
 def seed_uid_from_auth(auth):
@@ -112,15 +112,27 @@ def get_uid():
         logger.debug(f"User document does not exist for UID: {uid}")
         return None
 
-def sign_up(email: str, password: str) -> str | None:
+class SignUpError(Exception):
+    """Raised when Firebase sign-up fails, carrying Firebase's error code."""
+    def __init__(self, code: str, message: str = ""):
+        self.code = code
+        self.message = message
+        super().__init__(message or code)
+
+
+def sign_up(email: str, password: str) -> str:
     resp = requests.post(
         f"{BASE_URL}:signUp?key={API_KEY}",
         json={"email": email, "password": password, "returnSecureToken": True},
     )
     if resp.status_code == 200:
         return resp.json()["localId"]
-    logger.debug(f"Sign up failed: {resp.json().get('error', {}).get('message')}")
-    return None
+
+    error = resp.json().get("error", {})
+    message = error.get("message", "")
+    code = message.split(" : ")[0]  # e.g. "WEAK_PASSWORD" from "WEAK_PASSWORD : Password should be..."
+    logger.debug(f"Sign up failed: {message}")
+    raise SignUpError(code, message)
 
 
 def log_in(email: str, password: str) -> str | None:

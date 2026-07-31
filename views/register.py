@@ -4,6 +4,7 @@ import logging
 from model.firestore_auth import create_user_doc, sign_up
 from views.login import header_bar, labeled_field
 from model.json.create_account_json import NewAccountStore
+from model.firestore_auth import create_user_doc, sign_up, SignUpError
 
 logger = logging.getLogger(f"pawplan.{__name__}")
 
@@ -113,9 +114,16 @@ def register_view(page: ft.Page) -> ft.View:
 
         # LOGIC
         # 1) create the Firebase Auth account (email/password)
-        local_id = sign_up(email_col.field.value, password_col.field.value)
-        if local_id is None:
-            error_text.value = "Registration failed. That email may already be in use."
+        # 1) create the Firebase Auth account (email/password)
+        try:
+            local_id = sign_up(email_col.field.value, password_col.field.value)
+        except SignUpError as err:
+            messages = {
+                "EMAIL_EXISTS": "That email is already registered.",
+                "WEAK_PASSWORD": "Password should be at least 6 characters.",
+                "INVALID_EMAIL": "That email address looks invalid.",
+            }
+            error_text.value = messages.get(err.code, "Registration failed. Please try again.")
             error_text.visible = True
             page.update()
             return

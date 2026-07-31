@@ -90,8 +90,7 @@ def login_view(page: ft.Page) -> ft.View:
         "value": None
     }
 
-    #Changed to email because that's how mafia works
-    email = labeled_field("Username", horizontal_alignment=ft.CrossAxisAlignment.CENTER)
+    email = labeled_field("Email", horizontal_alignment=ft.CrossAxisAlignment.CENTER)
     password  = labeled_field("Password", password = True, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
 
 

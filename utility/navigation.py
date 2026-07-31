@@ -9,6 +9,14 @@ logger = logging.getLogger(__name__)
 # === END NOTE ===
 
 # for push route with no extra conditions
+from model.firestore_auth import uid_account
+
+async def do_logout(page: ft.Page):
+    uid_account.clear()
+    if page.auth is not None:
+        page.logout()
+    await page.push_route("/")
+
 def go_to(page: ft.Page, route: str, on_after=None):
     async def handler(e):
         try:

@@ -10,7 +10,7 @@ from model.task_crud import (
     format_occurrence_date,
     complete_task_occurrence,
 )
-from utility.navigation import go_to
+from utility.navigation import go_to, do_logout
 
 logger = logging.getLogger(__name__)
 
@@ -36,8 +36,8 @@ def pet_reminder_view(page: ft.Page) -> ft.View:
         await page.push_route("/settings")
 
     async def go_logout(e):
-        logger.debug(f"Logout route pushed: {e}")
-        await page.push_route("/")
+        logger.debug("Logout clicked")
+        await do_logout(page)
 
     # header: back arrow + centered title, no overflow menu
     appbar = ft.Container(

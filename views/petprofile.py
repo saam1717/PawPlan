@@ -2,6 +2,7 @@ import flet as ft
 import logging
 
 from model.pet_crud import get_specific_pet
+from utility.navigation import do_logout
 from utility.theme import get_colors, ON_BRAND, ORANGE, NAV_BLUE
 
 logger = logging.getLogger(__name__)
@@ -41,9 +42,8 @@ def petprofile_view(page: ft.Page) -> ft.View:
         await page.push_route("/settings")
 
     async def go_logout(e):
-        logger.debug(f"Logout route pushed: {e}")
-        await page.push_route("/")
-
+        logger.debug("Logout clicked")
+        await do_logout(page)
     # header
     appbar = ft.Container(
         padding=ft.Padding.symmetric(horizontal=10, vertical=10),

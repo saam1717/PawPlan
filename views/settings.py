@@ -9,9 +9,6 @@ logger = logging.getLogger(f"pawplan.{__name__}")
 
 
 SETTINGS_OPTIONS = [
-    "Change Username",
-    "Change Email",
-    "Change Password",
     "Change Appearance"
 ]
 

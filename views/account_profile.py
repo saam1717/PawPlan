@@ -6,6 +6,7 @@ import threading
 from model.firestore_auth import get_uid
 from model.pet_crud import get_pet_list, remove_pet, DEFAULT_PET_COLOR
 from model.user_account_crud import get_data
+from utility.navigation import do_logout
 from utility.theme import get_colors, ON_BRAND, PRIMARY, ORANGE, HEADER_BLUE, NAV_BLUE
 
 logger = logging.getLogger(__name__)
@@ -71,8 +72,8 @@ def account_profile_view(page: ft.Page) -> ft.View:
         await page.push_route("/settings")
 
     async def go_logout(e):
-        logger.debug(f"Logout route pushed: {e}")
-        await page.push_route("/")
+        logger.debug("Logout clicked")
+        await do_logout(page)
 
 
     pill_nav_routes = ["/homepage", "/taskboard", "/account_profile"]

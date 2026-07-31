@@ -10,7 +10,7 @@ from model.task_crud import (
     format_occurrence_date,
     complete_task_occurrence,
 )
-from utility.navigation import go_to
+from utility.navigation import go_to, do_logout
 from utility.theme import get_colors, ON_BRAND, ORANGE, NAV_BLUE
 
 logger = logging.getLogger(f"pawplan.{__name__}")
@@ -56,8 +56,7 @@ def taskboard_view(page: ft.Page) -> ft.View:
 
     async def go_logout(e):
         logger.debug("Logout clicked")
-        await page.push_route("/")
-
+        await do_logout(page)
     toggleColor = get_colors(page)
     black = toggleColor["text"]
     white = toggleColor["surface"]
