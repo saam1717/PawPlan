@@ -603,7 +603,7 @@ def taskboard_input_view(page: ft.Page) -> ft.View:
     # doc. This matches homepage.py's return_uid() pattern: after an OAuth
     # login the temp uid file may be empty (main.py clears it on startup), so
     # page.auth is the source of truth here.
-    if page.auth is not None:
+    if page.auth is not None and page.auth.user is not None:
         current_user_id = str(page.auth.user["email"])
     else:
         current_user_id = UserIdStore().get()
